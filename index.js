@@ -86,80 +86,108 @@ class ElectrumClient extends Client {
   }
 
   // ElectrumX API
-  server_version(client_name, protocol_version) {
-    return this.request('server.version', [client_name, protocol_version]);
+    server_version(client_name, protocol_version) {
+    return this.request('server.version', [client_name, protocol_version])
   }
   server_banner() {
-    return this.request('server.banner', []);
-  }
-  server_features() {
-    return this.request('server.features', []);
+    return this.request('server.banner', [])
   }
   server_ping() {
-    return this.request('server.ping', []);
+    return this.request('server.ping', [])
   }
   server_addPeer(features) {
-    return this.request('server.add_peer', [features]);
+    return this.request('server.add_peer', [features])
   }
-  serverDonation_address() {
-    return this.request('server.donation_address', []);
+  server_donation_address() {
+    return this.request('server.donation_address', [])
   }
-  serverPeers_subscribe() {
-    return this.request('server.peers.subscribe', []);
+  server_features() {
+    return this.request('server.features', [])
   }
-  blockchainAddress_getProof(address) {
-    return this.request('blockchain.address.get_proof', [address]);
+  server_peers_subscribe() {
+    return this.request('server.peers.subscribe', [])
   }
-  blockchainScripthash_getBalance(scripthash) {
-    return this.request('blockchain.scripthash.get_balance', [scripthash]);
+  blockchain_address_getProof(address) {
+    return this.request('blockchain.address.get_proof', [address])
   }
-  blockchainScripthash_getBalanceBatch(scripthash) {
-    return this.requestBatch('blockchain.scripthash.get_balance', scripthash);
+  blockchain_dotnav_resolveName(name, subdomains) {
+    return this.request('blockchain.dotnav.resolve_name', [name, subdomains])
   }
-  blockchainScripthash_listunspentBatch(scripthash) {
-    return this.requestBatch('blockchain.scripthash.listunspent', scripthash);
+  blockchain_scripthash_getBalance(scripthash) {
+    return this.request('blockchain.scripthash.get_balance', [scripthash])
   }
-  blockchainScripthash_getHistory(scripthash) {
-    return this.request('blockchain.scripthash.get_history', [scripthash]);
+  blockchain_scripthash_getHistory(scripthash, height = 0, to_height = -1) {
+    if (this.protocolVersion == '1.5') {
+      return this.request('blockchain.scripthash.get_history', [scripthash, height, to_height])
+    } else {
+      return this.request('blockchain.scripthash.get_history', [scripthash])
+    }
   }
-  blockchainScripthash_getHistoryBatch(scripthash) {
-    return this.requestBatch('blockchain.scripthash.get_history', scripthash);
+  blockchain_scripthash_getMempool(scripthash) {
+    return this.request('blockchain.scripthash.get_mempool', [scripthash])
   }
-  blockchainScripthash_getMempool(scripthash) {
-    return this.request('blockchain.scripthash.get_mempool', [scripthash]);
+  blockchain_scripthash_listunspent(scripthash) {
+    return this.request('blockchain.scripthash.listunspent', [scripthash])
   }
-  blockchainScripthash_listunspent(scripthash) {
-    return this.request('blockchain.scripthash.listunspent', [scripthash]);
+  blockchain_scripthash_subscribe(scripthash) {
+    return this.request('blockchain.scripthash.subscribe', [scripthash])
   }
-  blockchainScripthash_subscribe(scripthash) {
-    return this.request('blockchain.scripthash.subscribe', [scripthash]);
+  blockchain_outpoint_subscribe(hash, out) {
+    return this.request('blockchain.outpoint.subscribe', [hash, out])
   }
-  blockchainBlock_headers(start_height, count) {
-    return this.request('blockchain.block.headeres', [start_height, count]);
+  blockchain_stakervote_subscribe(scripthash) {
+    return this.request('blockchain.stakervote.subscribe', [scripthash])
+  }
+  blockchain_consensus_subscribe() {
+    return this.request('blockchain.consensus.subscribe', [])
+  }
+  blockchain_dao_subscribe() {
+    return this.request('blockchain.dao.subscribe', [])
+  }
+  blockchain_scripthash_unsubscribe(scripthash) {
+    return this.request('blockchain.scripthash.unsubscribe', [scripthash])
+  }
+  blockchain_outpoint_unsubscribe(hash, out) {
+    return this.request('blockchain.outpoint.unsubscribe', [hash, out])
+  }
+  blockchain_block_header(height, cpHeight = 0) {
+    return this.request('blockchain.block.header', [height, cpHeight])
+  }
+  blockchain_block_headers(startHeight, count, cpHeight = 0) {
+    return this.request('blockchain.block.headers', [startHeight, count, cpHeight])
   }
   blockchainEstimatefee(number) {
-    return this.request('blockchain.estimatefee', [number]);
+    return this.request('blockchain.estimatefee', [number])
   }
-  blockchainHeaders_subscribe() {
-    return this.request('blockchain.headers.subscribe', []);
+  blockchain_headers_subscribe() {
+    return this.request('blockchain.headers.subscribe', [])
   }
   blockchain_relayfee() {
-    return this.request('blockchain.relayfee', []);
+    return this.request('blockchain.relayfee', [])
   }
-  blockchainTransaction_broadcast(rawtx) {
-    return this.request('blockchain.transaction.broadcast', [rawtx]);
+  blockchain_transaction_broadcast(rawtx) {
+    return this.request('blockchain.transaction.broadcast', [rawtx])
   }
-  blockchainTransaction_get(tx_hash, verbose) {
-    return this.request('blockchain.transaction.get', [tx_hash, verbose || false]);
+  blockchain_transaction_get(tx_hash, verbose) {
+    return this.request('blockchain.transaction.get', [tx_hash, verbose ? verbose : false])
   }
-  blockchainTransaction_getBatch(tx_hash, verbose) {
-    return this.requestBatch('blockchain.transaction.get', tx_hash, verbose);
+  blockchain_transaction_getKeys(tx_hash) {
+    return this.request('blockchain.transaction.get_keys', [tx_hash])
   }
-  blockchainTransaction_getMerkle(tx_hash, height) {
-    return this.request('blockchain.transaction.get_merkle', [tx_hash, height]);
+  blockchain_staking_getKeys(spending_pkh) {
+    return this.request('blockchain.staking.get_keys', [spending_pkh])
+  }
+  blockchain_token_getToken(id) {
+    return this.request('blockchain.token.get_token', [id])
+  }
+  blockchain_token_getNft(id, subid, get_utxo) {
+    return this.request('blockchain.token.get_nft', [id, subid, get_utxo ? get_utxo : false])
+  }
+  blockchain_transaction_getMerkle(tx_hash, height) {
+    return this.request('blockchain.transaction.get_merkle', [tx_hash, height])
   }
   mempool_getFeeHistogram() {
-    return this.request('mempool.get_fee_histogram', []);
+    return this.request('mempool.get_fee_histogram', [])
   }
 }
 
