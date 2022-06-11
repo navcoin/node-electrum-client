@@ -86,7 +86,7 @@ class ElectrumClient extends Client {
   }
 
   // ElectrumX API
-    server_version(client_name, protocol_version) {
+  server_version(client_name, protocol_version) {
     return this.request('server.version', [client_name, protocol_version])
   }
   server_banner() {
@@ -188,6 +188,22 @@ class ElectrumClient extends Client {
   }
   mempool_getFeeHistogram() {
     return this.request('mempool.get_fee_histogram', [])
+  }
+  
+  blockchain_scripthash_getBalanceBatch(scripthash) {
+    return this.requestBatch('blockchain.scripthash.get_balance', scripthash);
+  }
+  blockchain_scripthash_listunspentBatch(scripthash) {
+    return this.requestBatch('blockchain.scripthash.listunspent', scripthash);
+  }
+  blockchain_scripthash_getHistoryBatch(scripthash) {
+    return this.requestBatch('blockchain.scripthash.get_history', scripthash);
+  }
+  blockchain_transaction_getBatch(tx_hash, verbose) {
+    return this.requestBatch('blockchain.transaction.get', tx_hash, verbose);
+  }
+  blockchain_transaction_getMerkle(tx_hash, height) {
+    return this.request('blockchain.transaction.get_merkle', [tx_hash, height]);
   }
 }
 
